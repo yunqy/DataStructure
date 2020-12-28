@@ -20,11 +20,13 @@ public:
     void inorder();
     void preorder();
     void postorder();
+    void bfs();
 private:
     TreeNode<T>* root;
 };
 
 #include <stack>
+#include <queue>
 #include <iostream>
 template <class T>
 TreeNode<T>::TreeNode(T data): _data(data), _traveled(false), _leftChild(nullptr), _rightChild(nullptr) {}
@@ -100,6 +102,22 @@ void Tree<T>::preorder() {
     std::cout << " ]" << std::endl;
 }
 
+template <class T>
+void Tree<T>::bfs() {
+    std::queue<TreeNode<T>*> q;
+    TreeNode<T>* curNode = root;
+    std::cout << "BFS: [";
+    while(curNode) {
+        curNode->visit();
+        if(curNode->_leftChild) q.push(curNode->_leftChild);
+        if(curNode->_rightChild) q.push(curNode->_rightChild);
+        if(q.empty()) break;
+        curNode = q.front();
+        q.pop();
+    }
+    std::cout << " ]" << std::endl;
+}
+
 int main() {
     TreeNode<int>* root = new TreeNode<int>(4);
     TreeNode<int>* cur = root;
@@ -116,4 +134,5 @@ int main() {
     tree.inorder();
     tree.preorder();
     tree.postorder();
+    tree.bfs();
 }
